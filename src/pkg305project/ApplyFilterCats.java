@@ -12,32 +12,32 @@ import java.util.*;
  *
  * @author shahad
  */
-class ApplyFilterCats implements Runnable {
+class ApplyFilterCats  {
     private static final String ConnectionURL = "jdbc:mysql://localhost:3306/Catopia_DB";
     
-    @Override
-    public void run() {
+    
+    public static List<Cat> filtering(int minAge, int maxAge, String color, String breed) {
         List<Cat> allCats = retrieveAllCatsFromDatabase();
         
         // Take user preferences as input
-        int minAge, maxAge;
-        String color, breed;
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter your preferences:");
-        
-        System.out.print("Minimum age: ");
-        minAge = scanner.nextInt();
-        
-        System.out.print("Maximum age: ");
-        maxAge = scanner.nextInt();
-        
-        scanner.nextLine(); // Consume newline
-        
-        System.out.print("Color: ");
-        color = scanner.nextLine();
-        
-        System.out.print("Breed: ");
-        breed = scanner.nextLine();
+//        int minAge, maxAge;
+//        String color, breed;
+//        Scanner scanner = new Scanner(System.in);
+//        System.out.println("Enter your preferences:");
+//        
+//        System.out.print("Minimum age: ");
+//        minAge = scanner.nextInt();
+//        
+//        System.out.print("Maximum age: ");
+//        maxAge = scanner.nextInt();
+//        
+//        scanner.nextLine(); // Consume newline
+//        
+//        System.out.print("Color: ");
+//        color = scanner.nextLine();
+//        
+//        System.out.print("Breed: ");
+//        breed = scanner.nextLine();
         
         
         List<Cat> filteredCats = filterCats(allCats, minAge, maxAge, color, breed);
@@ -46,6 +46,8 @@ class ApplyFilterCats implements Runnable {
         for (Cat cat : filteredCats) {
             System.out.println(cat);
         }
+        
+        return filteredCats;
         
     }
 
