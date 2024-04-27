@@ -5,6 +5,18 @@
  */
 package pkg305project;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author lojai
@@ -151,7 +163,58 @@ public class HomePage extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        
+        ServerSocket server;
+
+        try {
+            server = new ServerSocket(12345);
+        
+
+        System.out.println("Server waiting Connection...");
+
+        Socket s = server.accept();
+
+        System.out.println("Client connect via: " + s.getInetAddress());
+
+            BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
+            PrintWriter writer = new PrintWriter(s.getOutputStream(), true);
+            String message;
+            while ((message = reader.readLine()) != null) {
+                System.out.println("Received message: " + message);
+              String reply = getAutoReply(message);
+                    writer.println(reply);
+                }
+        s.close();
+        } catch (IOException ex) {
+        System.out.println("Server have an error...");
+        }
+        finally {
+//        chat c = new chat();
+//        c.show();
+//        dispose();
+        }
+        
+        
+        
+        
+    
     }//GEN-LAST:event_jButton5ActionPerformed
+ private static String getAutoReply(String message) {
+        // Implement your auto-reply logic here
+        // For example, you can return a predefined reply based on the received message
+        // You can use if-else or switch statements to handle different cases
+        if (message.equalsIgnoreCase("hi")) {
+            return "Hi there!"
+                    + "\nwelcome to our shelter"
+                    + "\ni am the replay bot";
+            
+        } else if (message.equalsIgnoreCase("can i adopt a cat?")) {
+            return "yes you can"
+                    + "\njust contact us from 8am to 3pm\nwe will be happy to help you";
+        } else {
+            return "I'm sorry, I didn't understand that.";
+        }
+    }
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
         // TODO add your handling code here:

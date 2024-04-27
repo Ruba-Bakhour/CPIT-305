@@ -452,6 +452,7 @@ public class OfferACat extends javax.swing.JFrame {
             Connection con = DriverManager.getConnection(ConnectionURL, "root", "1234"); // Change it to your settings
             Statement st = con.createStatement();
             
+            // Need to do some things here : 
             st.executeUpdate("INSERT INTO (????) VALUES(" + id + "','" + name + "','" + breed + "','" + date + "','" + gender + "','" + disabled + "','" + Personalities + "','" + AdoptionFees +"')" );
             JOptionPane.showMessageDialog(null, "Offered cat added successfully!", "", JOptionPane.NO_OPTION);
             dispose();

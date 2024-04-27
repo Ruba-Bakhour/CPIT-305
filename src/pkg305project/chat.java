@@ -5,6 +5,16 @@
  */
 package pkg305project;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author lojai
@@ -15,7 +25,46 @@ public class chat extends javax.swing.JFrame {
      * Creates new form chat_1
      */
     public chat() {
+        try {
+            socket = new Socket("localhost", 12345);
+            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+            writer = new PrintWriter(socket.getOutputStream(), true);
+            Thread receiveThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        String message;
+                        while ((message = reader.readLine()) != null) {
+                            appendMessage(message, false);
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            receiveThread.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         initComponents();
+    }
+    private void appendMessage(String message, boolean sent) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                if (sent) {
+                    jTextArea1.append("Sent: " + message + "\n");
+                    
+                } else {
+                    jTextArea1.append("Received: " + message + "\n");
+                }
+            }
+        });
+    }
+    private void sendMessage() {
+        String message = jTextField1.getText();
+        writer.println(message);
+        jTextField1.setText("");
+        appendMessage(message, true);
     }
 
     /**
@@ -41,12 +90,10 @@ public class chat extends javax.swing.JFrame {
         jTextArea1.setColumns(20);
         jTextArea1.setFont(new java.awt.Font("Courier New", 0, 24)); // NOI18N
         jTextArea1.setRows(5);
-        jTextArea1.setText("User: Hello!\nShelter: Hi!");
         jScrollPane2.setViewportView(jTextArea1);
 
         jLabel1.setText("ShelterName's Messages");
 
-        jTextField1.setText("Enter your message..");
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField1ActionPerformed(evt);
@@ -111,10 +158,12 @@ public class chat extends javax.swing.JFrame {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
+        jTextField1.setText("");
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+              sendMessage();
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -145,13 +194,14 @@ public class chat extends javax.swing.JFrame {
         //</editor-fold>
         //</editor-fold>
 
-        /* Create and display the form */
+        /* Create and display the form */    
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new chat().setVisible(true);
+               new chat().setVisible(true);
             }
         });
     }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -161,4 +211,7 @@ public class chat extends javax.swing.JFrame {
     private javax.swing.JTextArea jTextArea1;
     private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
+    private PrintWriter writer;
+    private Socket socket;
+    private BufferedReader reader;
 }
