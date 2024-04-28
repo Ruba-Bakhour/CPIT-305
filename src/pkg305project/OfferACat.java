@@ -29,7 +29,7 @@ public class OfferACat extends javax.swing.JFrame {
     private String date ;
     private boolean disabled ;
     private String AdoptionFees ;
-    private ArrayList<String> Personalities = new ArrayList<String>(); // Clear it after every added offer !! (A note for myself ^^)
+    private String Personalities = "";
     /**
      * Creates new form OfferACat
      */
@@ -368,12 +368,12 @@ public class OfferACat extends javax.swing.JFrame {
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        Personalities.add("Likes Children") ;
+        Personalities = Personalities + "LikesChildren," ;
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
         // TODO add your handling code here:
-        Personalities.add("Likes other cats") ;
+        Personalities = Personalities +"LikesOtherCats," ;
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
@@ -385,7 +385,7 @@ public class OfferACat extends javax.swing.JFrame {
 
     private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
         // TODO add your handling code here:
-        Personalities.add("Extroverted") ;
+        Personalities = Personalities +"Extroverted" ;
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -394,12 +394,12 @@ public class OfferACat extends javax.swing.JFrame {
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
         // TODO add your handling code here:
-        Personalities.add("Impulsive") ;
+        Personalities = Personalities +"Impulsive" ;
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
         // TODO add your handling code here:
-        Personalities.add("Agreeable") ;
+        Personalities = Personalities +"Agreeable" ;
     }//GEN-LAST:event_jCheckBox4ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
@@ -426,7 +426,7 @@ public class OfferACat extends javax.swing.JFrame {
 
     private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
         // TODO add your handling code here:
-        Personalities.add("Introverted") ;
+        Personalities = Personalities + "Introverted" ;
     }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
@@ -453,7 +453,7 @@ public class OfferACat extends javax.swing.JFrame {
             Statement st = con.createStatement();
             
             // Need to do some things here : 
-            st.executeUpdate("INSERT INTO (????) VALUES(" + id + "','" + name + "','" + breed + "','" + date + "','" + gender + "','" + disabled + "','" + Personalities + "','" + AdoptionFees +"')" );
+            st.executeUpdate("INSERT INTO cat VALUES(" + id + "','" + name + "','" + breed + "','" + "color" +"','"+date + "','" + gender + "','" + disabled + "','" + "'"+Personalities + "'" + "','" + AdoptionFees +"','"+ "0" + "')" );
             JOptionPane.showMessageDialog(null, "Offered cat added successfully!", "", JOptionPane.NO_OPTION);
             dispose();
         } catch (SQLException ex) {
