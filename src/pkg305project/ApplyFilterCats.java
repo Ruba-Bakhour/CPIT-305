@@ -73,12 +73,13 @@ class ApplyFilterCats  {
 
             // Process the results
             while (resultSet.next()) {
+                String name = resultSet.getString("cat_name");
                 int age = resultSet.getInt("age");
                 String color = resultSet.getString("color");
                 String breed = resultSet.getString("breed");
                 
                 // Create a new Cat object and add it to the list
-                cats.add(new Cat(age, color, breed));
+                cats.add(new Cat(age, color, breed,name));
             }
             
             resultSet.close();

@@ -9,15 +9,25 @@ package pkg305project;
  * @author shahad
  */
 public class Cat {
+    private String name;
      private int age;
     private String color;
     private String breed;
 
     // Constructor, getters, and setters
-    public Cat(int age, String color, String breed) {
+    public Cat(int age, String color, String breed,String name) {
+        this.name=name;
         this.age = age;
         this.color = color;
         this.breed = breed;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getAge() {
@@ -46,11 +56,12 @@ public class Cat {
 
     @Override
     public String toString() {
-        return "Cat{" +
-                "age=" + age +
-                ", color='" + color + '\'' +
-                ", breed='" + breed + '\'' +
-                '}';
+        return 
+                " name= " + name + '\n' +
+                " age=" + age +'\n' +
+                " color= " + color + '\n' +
+                " breed= " + breed + '\n' ;
+               
     }
     
 }
