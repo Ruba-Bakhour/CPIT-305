@@ -23,7 +23,7 @@ public class Database {
         Connection con = null;
         try {
 
-            con = DriverManager.getConnection(ConnectionURL, "root", "1234"); // Change it to your settings
+            con = DriverManager.getConnection(ConnectionURL, "root", "shad2002"); // Change it to your settings
             Statement st = con.createStatement();
 
             //----------------------------------------------Database Creation--------------------------------------------------
@@ -33,7 +33,7 @@ public class Database {
                 st.executeUpdate("CREATE DATABASE " + database);
                 // (5) connect to the database
                 ConnectionURL = "jdbc:mysql://localhost:3306/Catopia_DB";
-                con = DriverManager.getConnection(ConnectionURL, "root", "1234"); // Change it to your settings
+                con = DriverManager.getConnection(ConnectionURL, "root", "shad2002"); // Change it to your settings
                 //----------------------------------------------Table Creation--------------------------------------------------
                 st = con.createStatement();
                 st.executeUpdate("CREATE TABLE user (userID int, name varchar(20),Email varchar(30),phone int(10), loc varchar(20))");

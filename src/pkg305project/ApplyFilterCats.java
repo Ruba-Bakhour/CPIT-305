@@ -16,7 +16,7 @@ class ApplyFilterCats  {
     private static final String ConnectionURL = "jdbc:mysql://localhost:3306/Catopia_DB";
     
     
-    public static List<Cat> filtering(int minAge, int maxAge, String color, String breed) {
+    public static List<Cat> filtering(int Age,String color, String breed) {
         List<Cat> allCats = retrieveAllCatsFromDatabase();
         
         // Take user preferences as input
@@ -40,7 +40,7 @@ class ApplyFilterCats  {
 //        breed = scanner.nextLine();
         
         
-        List<Cat> filteredCats = filterCats(allCats, minAge, maxAge, color, breed);
+        List<Cat> filteredCats = filterCats(allCats, Age, color, breed);
         
         // Print or display the filtered cats to the user
         for (Cat cat : filteredCats) {
@@ -62,7 +62,7 @@ class ApplyFilterCats  {
         
         try{
             // Connect to the database
-            connection = DriverManager.getConnection(ConnectionURL, "root", "1234"); // Change it to your settings
+            connection = DriverManager.getConnection(ConnectionURL, "root", "shad2002"); // Change it to your settings
             
             // Prepare the SQL query
             String sql = "SELECT * FROM cat";
@@ -95,7 +95,7 @@ class ApplyFilterCats  {
         return cats;
     }
     
-    private static List<Cat> filterCats(List<Cat> cats, int minAge, int maxAge, String color, String breed) {
+    private static List<Cat> filterCats(List<Cat> cats, int Age, String color, String breed) {
         List<Cat> filteredCats = new ArrayList<>();
         List<Cat> ageFilteredCats = new ArrayList<>();
         List<Cat> colorFilteredCats = new ArrayList<>();
@@ -104,7 +104,7 @@ class ApplyFilterCats  {
         // Create threads for filtering cats by age
         Thread ageFilterThread = new Thread(() -> {
             for (Cat cat : cats) {
-                if (cat.getAge() >= minAge && cat.getAge() <= maxAge) {
+                if (cat.getAge() == Age) {
                     ageFilteredCats.add(cat);
                 }
             }
