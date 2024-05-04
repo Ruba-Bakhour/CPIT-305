@@ -37,7 +37,7 @@ public class Database {
                 //----------------------------------------------Table Creation--------------------------------------------------
                 st = con.createStatement();
                 st.executeUpdate("CREATE TABLE user (userID int, name varchar(20),Email varchar(30),phone int(10), loc varchar(20))");
-                st.executeUpdate("CREATE TABLE cat  (catID int, cat_name varchar(20),breed varchar(10),color varchar(10),age int, sex ENUM('F','M'), disabled BOOLEAN, personality SET('Extroverted','Introverted','Agreeable','Impulsive','LikesChildren', 'LikesCats'), adoptionFees int, ownerID int)");
+                st.executeUpdate("CREATE TABLE cat  (catID int, cat_name varchar(20),breed varchar(10),color varchar(10),age varchar(10), sex ENUM('F','M'), disabled BOOLEAN, personality SET('Extroverted','Introverted','Agreeable','Impulsive','LikesChildren', 'LikesCats'), adoptionFees int, ownerID int)");
 
                 st.executeUpdate("CREATE TABLE donationMoney  (donationID int,userid int,amount int)");
             st.executeUpdate("CREATE TABLE donationToys (donationID int, userid int, cond varchar(20), amount varchar(20))");
