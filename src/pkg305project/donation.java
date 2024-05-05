@@ -13,10 +13,13 @@ import javax.swing.JTextField;
  *
  * @author lojai
  */
+
+
+// in this page we will ask the user what type of donation will donate with
 public class donation extends javax.swing.JFrame {
 public static String donatedToName =null;
 
-// https://stackoverflow.com/questions/43737085/update-jtextfield-addactionlistener-without-pressing-enter
+// in this page we will ask the user what type of donation will donate with.
 
     /**
      * Creates new form donation

@@ -20,6 +20,8 @@ import static pkg305project.donation.donatedToName;
  *
  * @author rubab
  */
+
+// this is the donation page of money where the user will enter the amount they will donate 
 public class donationMoney extends javax.swing.JFrame {
 public static String amount =null;
     /**
@@ -109,6 +111,12 @@ public static String amount =null;
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:     
+        if (!(amount.matches("^[0-9]+$"))){ // this regex will check if there is numbers
+    
+     JOptionPane.showMessageDialog(null, "Please enter a number", "", JOptionPane.ERROR_MESSAGE);
+    }
+        else{}
+        
         String ConnectionURL = "jdbc:mysql://localhost:3306/Catopia_DB";
         Random r = new Random();
         int id = r.nextInt(1000);

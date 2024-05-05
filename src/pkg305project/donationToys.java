@@ -18,6 +18,9 @@ import javax.swing.JOptionPane;
  *
  * @author rubab
  */
+
+
+// this is the donation page of toys where user will input the toy condition to donate it.
 public class donationToys extends javax.swing.JFrame {
     public static String size =null;
        public static String cond =null;

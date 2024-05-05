@@ -10,6 +10,9 @@ import java.sql.Statement;
  *
  * @author rubab
  */
+
+
+// this class will initialize the database and fill it whith dummy data, it will check if it exists on this laptop or not and will create it.
 public class Database {
 
     public static String ConnectionURL = "jdbc:mysql://localhost:3306";

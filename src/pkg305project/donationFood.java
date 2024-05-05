@@ -19,10 +19,16 @@ import javax.swing.JTextField;
  *
  * @author rubab
  */
+
+
+// this is the donation page for food. user will enter the brand name, expiration  date and the size of their donation.
+// we used a remade regex for date checking 
+// https://stackoverflow.com/questions/8283405/what-is-the-regular-expression-for-date-format-dd-mm-yyyy
 public class donationFood extends javax.swing.JFrame {
     public static String amount =null;
     public static String date =null;
     public static String brand =null;
+String regex = "^\\d{4}/(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01])$";
 
     /**
      * Creates new form sonationFood
@@ -147,7 +153,8 @@ public class donationFood extends javax.swing.JFrame {
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         JTextField jt =new JTextField();
         jt.setText("");
-        amount = jTextField1.getText();     
+        amount = jTextField1.getText();    
+      
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
@@ -156,10 +163,24 @@ public class donationFood extends javax.swing.JFrame {
         JTextField jt =new JTextField();
         jt.setText("");
         date = jTextField3.getText();
+        
+     
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-   String ConnectionURL = "jdbc:mysql://localhost:3306/Catopia_DB";
+   
+        
+         if (  !(amount.matches("^[0-9]+$"))  ){ // this regex will check if there is numbers
+    
+     JOptionPane.showMessageDialog(null, "Please enter a number", "", JOptionPane.ERROR_MESSAGE);
+    } else if ( !(date.matches(regex))) {
+     JOptionPane.showMessageDialog(null, "Please enter a valid date", "", JOptionPane.ERROR_MESSAGE);
+    }
+         
+         
+         
+         else {
+           String ConnectionURL = "jdbc:mysql://localhost:3306/Catopia_DB";
         Random r = new Random();
         int id = r.nextInt(1000);
         try {
@@ -171,7 +192,13 @@ public class donationFood extends javax.swing.JFrame {
             dispose();
         } catch (SQLException ex) {
             Logger.getLogger(donationMoney.class.getName()).log(Level.SEVERE, null, ex);
-        }        
+        }  
+         
+         }
+        
+        
+        
+            
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
