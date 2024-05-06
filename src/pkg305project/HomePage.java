@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
+import static java.lang.Thread.sleep;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
@@ -162,58 +163,38 @@ public class HomePage extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
+            //when "Contact Shelter" button is clicked Open the chat window to contact the shelter
         
-        ServerSocket server;
-
-        try {
-            server = new ServerSocket(12345);
-        
-
-        System.out.println("Server waiting Connection...");
-
-        Socket s = server.accept();
-
-        System.out.println("Client connect via: " + s.getInetAddress());
-
-            BufferedReader reader = new BufferedReader(new InputStreamReader(s.getInputStream()));
-            PrintWriter writer = new PrintWriter(s.getOutputStream(), true);
-            String message;
-            while ((message = reader.readLine()) != null) {
-                System.out.println("Received message: " + message);
-              String reply = getAutoReply(message);
-                    writer.println(reply);
-                }
-        s.close();
-        } catch (IOException ex) {
-        System.out.println("Server have an error...");
-        }
-        finally {
-//        chat c = new chat();
-//        c.show();
-//        dispose();
-        }
-        
-        
-        
-        
-    
+        chat c = new chat();
+        c.show();
+        dispose();
+ 
     }//GEN-LAST:event_jButton5ActionPerformed
- private static String getAutoReply(String message) {
-        // Implement your auto-reply logic here
-        // For example, you can return a predefined reply based on the received message
-        // You can use if-else or switch statements to handle different cases
-        if (message.equalsIgnoreCase("hi")) {
-            return "Hi there!"
-                    + "\nwelcome to our shelter"
-                    + "\ni am the replay bot";
+ private static String getAutoReply(String message,Socket s) {
+        try {
+            //Auto Reply to answer the user quastions
+            sleep(1000);
+            if (message.equalsIgnoreCase("hi")) {
+                return "Hi there!"
+                        + "\nwelcome to our shelter"
+                        + "\ni am the replay bot";
+                
+            } else if (message.equalsIgnoreCase("can i adopt a cat?")) {
+                return "yes you can"
+                        + "\njust contact us from 8am to 3pm\nwe will be happy to help you";
+            } else if (message.equalsIgnoreCase("thanks")) {
+                s.close();
+                
+            }else {
+                return "I'm sorry, I didn't understand that.";
+            }
             
-        } else if (message.equalsIgnoreCase("can i adopt a cat?")) {
-            return "yes you can"
-                    + "\njust contact us from 8am to 3pm\nwe will be happy to help you";
-        } else {
-            return "I'm sorry, I didn't understand that.";
+        } catch (InterruptedException ex) {
+            ex.getStackTrace();
+        } catch (IOException ex) {
+            ex.getStackTrace();
         }
+        return null;
     }
 
     private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
@@ -276,8 +257,36 @@ public class HomePage extends javax.swing.JFrame {
             public void run() {
                 new HomePage().setVisible(true);
             }
+            
         });
-    }
+        ServerSocket server;
+
+        try {
+            // Create server socket
+            server = new ServerSocket(12345);
+            Socket s = server.accept();
+            Scanner in = new Scanner(s.getInputStream());
+            PrintWriter out = new PrintWriter(s.getOutputStream(),true);
+
+            // Thread to handle the messages and  auto-replies
+            Thread receiveThread2 = new Thread(new Runnable() {
+                String message;
+                @Override
+                public void run() {
+            while (true) {
+            message = in.nextLine();
+                if (message != null) {
+                out.println(message);    
+                String reply = getAutoReply(message,s);
+                out.println(reply);
+            }
+                }
+            }});
+            receiveThread2.start();
+        } catch (IOException ex) {
+        System.out.println("Server have an error...");
+        
+    }}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton10;

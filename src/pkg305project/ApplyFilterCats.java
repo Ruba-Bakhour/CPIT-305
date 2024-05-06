@@ -62,7 +62,7 @@ class ApplyFilterCats  {
         
         try{
             // Connect to the database
-            connection = DriverManager.getConnection(ConnectionURL, "root", "shad2002"); // Change it to your settings
+            connection = DriverManager.getConnection(ConnectionURL, "root", "raghad"); // Change it to your settings
             
             // Prepare the SQL query
             String sql = "SELECT * FROM cat";

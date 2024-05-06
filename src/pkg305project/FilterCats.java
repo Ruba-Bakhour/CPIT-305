@@ -5,7 +5,14 @@
  */
 package pkg305project;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import static pkg305project.ApplyFilterCats.filtering;
 import static pkg305project.donationFood.amount;
@@ -205,12 +212,48 @@ public class FilterCats extends javax.swing.JFrame {
             
     }else{
             List<Cat> filteredCats =filtering(MinAge,Breed,Color);
+       
+
+        File file = new File("results.txt");
+
+        FileWriter writer = null;
+        AfterFiltering af = null ;
+            try {
+                writer = new FileWriter(file);
+            } catch (IOException ex) {
+                Logger.getLogger(FilterCats.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            for (Cat cat : filteredCats) {
+                try {
+                    writer.write(cat.toString() + "\n");
+                } catch (IOException ex) {
+                    Logger.getLogger(FilterCats.class.getName()).log(Level.SEVERE, null, ex);
+                }
+        }
+            try {
+                writer.close();
+            } catch (IOException ex) {
+                Logger.getLogger(FilterCats.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    
+           
+       try {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            StringBuilder text = new StringBuilder();
+            String line;
+            while ((line = reader.readLine()) != null) {
+                text.append(line).append("\n");
+            }
+            reader.close();
+           af = new AfterFiltering();
+            af.jTextArea1.setText(text.toString());
+        } catch (IOException e) {
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+    
         
-        AfterFiltering af = new AfterFiltering();
-        af.jTextArea1.setText(filteredCats.toString());
         
-        
-        if(filteredCats.isEmpty()){
+        if(file.length() == 0 ){
             try {
                 throw new noMatches("no matches found in our cats database :( ");
             } catch (noMatches ex) {

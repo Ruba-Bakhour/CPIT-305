@@ -5,15 +5,11 @@
  */
 package pkg305project;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
+import java.util.Scanner;
 
 /**
  *
@@ -26,46 +22,37 @@ public class chat extends javax.swing.JFrame {
      */
     public chat() {
         try {
+            //Connect to the server
             socket = new Socket("localhost", 12345);
-            reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-            writer = new PrintWriter(socket.getOutputStream(), true);
-            Thread receiveThread = new Thread(new Runnable() {
+            Scanner scanner = new Scanner(socket.getInputStream());
+            writer = new PrintWriter(socket.getOutputStream(),true);
+            
+            //Create a thread to receive messages from the server
+            Thread receiveThread1 = new Thread(new Runnable() {
+                String message;
                 @Override
                 public void run() {
-                    try {
-                        String message;
-                        while ((message = reader.readLine()) != null) {
-                            appendMessage(message, false);
-                        }
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    while (true) {
+                    // Read messages from the server and display them in the chat window    
+                    message = scanner.nextLine();
+                    if(message!= null){
+                    jTextArea1.append(message);
+                    jTextArea1.append("\n");}
+
                     }
-                }
-            });
-            receiveThread.start();
-        } catch (IOException e) {
-            e.printStackTrace();
+                }}
+                
+            );
+            receiveThread1.start();
+            
+        } catch (IOException ex) {
+        // Handle connection error
+        System.out.println("Server have an error...");
         }
-        initComponents();
-    }
-    private void appendMessage(String message, boolean sent) {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                if (sent) {
-                    jTextArea1.append("Sent: " + message + "\n");
-                    
-                } else {
-                    jTextArea1.append("Received: " + message + "\n");
-                }
-            }
-        });
-    }
-    private void sendMessage() {
-        String message = jTextField1.getText();
-        writer.println(message);
-        jTextField1.setText("");
-        appendMessage(message, true);
-    }
+        
+     initComponents();}
+    
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,6 +69,7 @@ public class chat extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,6 +95,13 @@ public class chat extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Back");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -115,24 +110,31 @@ public class chat extends javax.swing.JFrame {
                 .addGap(40, 40, 40)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(26, 26, 26)
-                                .addComponent(jButton1))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(229, 229, 229)
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(8, 8, 8)
+                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton1)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
-                        .addGap(50, 50, 50))))
+                        .addGap(50, 50, 50))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(229, 229, 229)
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButton2)
+                        .addGap(20, 20, 20))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(jLabel1)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(jLabel1))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jButton2)))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 426, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
@@ -158,13 +160,22 @@ public class chat extends javax.swing.JFrame {
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
-        jTextField1.setText("");
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-              sendMessage();
-            
+        
+        // Get message from text field and send it to the server
+        String message = jTextField1.getText();
+        writer.println(message);
+        jTextField1.setText("");
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // Go back to the home page
+            HomePage c = new HomePage();
+            c.show();
+            dispose();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -198,6 +209,7 @@ public class chat extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                new chat().setVisible(true);
+               
             }
         });
     }
@@ -205,6 +217,7 @@ public class chat extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -214,4 +227,5 @@ public class chat extends javax.swing.JFrame {
     private PrintWriter writer;
     private Socket socket;
     private BufferedReader reader;
+    private Thread receiveThread;
 }

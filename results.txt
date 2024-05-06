@@ -1,0 +1,10 @@
+ name= momo
+ age=3
+ color= brown
+ breed= Tabby
+
+ name= sambusa
+ age=3
+ color= white
+ breed= Siamese 
+
