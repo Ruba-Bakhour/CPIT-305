@@ -8,6 +8,7 @@ package pkg305project;
 import java.util.List;
 import javax.swing.JOptionPane;
 import static pkg305project.ApplyFilterCats.filtering;
+import static pkg305project.donationFood.amount;
 
 /**
  *
@@ -194,24 +195,23 @@ public class FilterCats extends javax.swing.JFrame {
         String Color = color.getText();
         String Breed = breed.getText();
         int MinAge = Integer.parseInt(minAge.getText());
+        String strNum = Integer.toString(MinAge);
+        FilterCats fc=new FilterCats();
         
-        
-        
-//        if(!(Color instanceof String) && !(Breed instanceof String)){
-//         
-//         FilterCats fc=new FilterCats();
-//          JOptionPane.showMessageDialog(fc, "color and breed have to be String ");
-//       
-//        }else{
-               
-        List<Cat> filteredCats =filtering(MinAge,Breed,Color);
+        if ((Color.matches("^[0-9]+$")) || (Breed.matches("^[0-9]+$")) || !(strNum.matches("^[0-9]+$"))){
+            // this regex will check if there is numbers
+            
+           JOptionPane.showMessageDialog(fc, "color and breed have to be String and age have to be number ");
+            
+    }else{
+            List<Cat> filteredCats =filtering(MinAge,Breed,Color);
         
         AfterFiltering af = new AfterFiltering();
         af.jLabel3.setText(filteredCats.toString());
         af.show();
         dispose();
+        }
         
-       // }
           
     }//GEN-LAST:event_jButton1ActionPerformed
 
