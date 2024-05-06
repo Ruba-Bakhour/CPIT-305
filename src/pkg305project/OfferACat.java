@@ -23,6 +23,8 @@ import javax.swing.JTextField;
  */
 public class OfferACat extends javax.swing.JFrame {
 
+    
+    // The data field of the class : 
     private char gender ;
     private String name ;
     private String breed ;
@@ -386,100 +388,102 @@ public class OfferACat extends javax.swing.JFrame {
 
     private void jRadioButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton2ActionPerformed
         // TODO add your handling code here:
-        gender = 'F';
+        gender = 'F'; // Saving the gender of the cat which is Female.
     }//GEN-LAST:event_jRadioButton2ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         // TODO add your handling code here:
-        Personalities = Personalities + "LikesChildren," ;
+        Personalities = Personalities + "LikesChildren," ; // Adding this pesonality to the Set of personalities of the cat
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
     private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
         // TODO add your handling code here:
-        Personalities = Personalities +"LikesCats," ;
+        Personalities = Personalities +"LikesCats," ; // Adding this pesonality to the Set of personalities of the cat
     }//GEN-LAST:event_jCheckBox2ActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
         JTextField jt =new JTextField();
         jt.setText("");
-        name = jTextField1.getText();
+        name = jTextField1.getText(); // Saving the name of the cat.
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     private void jCheckBox5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox5ActionPerformed
         // TODO add your handling code here:
-        Personalities = Personalities +"Extroverted," ;
+        Personalities = Personalities +"Extroverted," ; // Adding this pesonality to the Set of personalities of the cat
     }//GEN-LAST:event_jCheckBox5ActionPerformed
 
     private void jCheckBox3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox3ActionPerformed
         // TODO add your handling code here:
-        Personalities = Personalities +"Impulsive," ;
+        Personalities = Personalities +"Impulsive," ; // Adding this pesonality to the Set of personalities of the cat
     }//GEN-LAST:event_jCheckBox3ActionPerformed
 
     private void jCheckBox4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox4ActionPerformed
         // TODO add your handling code here:
-        Personalities = Personalities +"Agreeable," ;
+        Personalities = Personalities +"Agreeable," ; // Adding this pesonality to the Set of personalities of the cat
     }//GEN-LAST:event_jCheckBox4ActionPerformed
 
     private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
         // TODO add your handling code here:
         JTextField jt =new JTextField();
         jt.setText("");
-        breed = jTextField2.getText();
+        breed = jTextField2.getText(); // Saving the breed of the cat.
     }//GEN-LAST:event_jTextField2ActionPerformed
 
     private void jRadioButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton3ActionPerformed
         // TODO add your handling code here:
-        gender = 'M';
+        gender = 'M'; // Saving the gender of the cat which is Male.
     }//GEN-LAST:event_jRadioButton3ActionPerformed
 
     private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
         // TODO add your handling code here:
-        disabled = "TRUE" ;
+        disabled = "TRUE" ; // Saving the satus of the cat which is disabled.
     }//GEN-LAST:event_jRadioButton1ActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
-        disabled = "FALSE" ;
+        disabled = "FALSE" ; // Saving the satus of the cat which is not disabled.
     }//GEN-LAST:event_jRadioButton4ActionPerformed
 
     private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
         // TODO add your handling code here:
-        Personalities = Personalities + "Introverted," ;
+        Personalities = Personalities + "Introverted," ; // Adding this pesonality to the Set of personalities of the cat.
     }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
         // TODO add your handling code here:
         JTextField jt =new JTextField();
         jt.setText("");
-        age = jTextField4.getText();
+        age = jTextField4.getText(); // Saving the age of the cat.
     }//GEN-LAST:event_jTextField4ActionPerformed
 
     private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
         // TODO add your handling code here:
         JTextField jt =new JTextField();
         jt.setText("");
-        AdoptionFees = jTextField3.getText();
+        AdoptionFees = jTextField3.getText(); // Saving the adoption fees of the cat.
     }//GEN-LAST:event_jTextField3ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
         String ConnectionURL = "jdbc:mysql://localhost:3306/Catopia_DB";
         Random r = new Random();
-        int id = 2 ;
-        String p = "'"+Personalities.substring(0 , (Personalities.length()-1))+"'" ;
+        int id = r.nextInt(1000);
+        // Deleting the last comma that will be added above to correct the syntax of the SET of Personalities : 
+        String p = "'"+Personalities.substring(0 , (Personalities.length()-1))+"'" ; 
         try {
             Connection con = DriverManager.getConnection(ConnectionURL, "root", "raghad"); // Change it to your settings
             Statement st = con.createStatement();
             
-            // Need to do some things here : 
+            // Inserting the new offered cat to the database :  
             st.executeUpdate("INSERT INTO cat VALUES(" + id + " ,'" + name + "','" + breed + "', '" + color +"' ,"+age + ",'" + gender + "'," + disabled + ","+ p + "," + AdoptionFees +" ,0)" );
-            // catID int, cat_name varchar(20),breed varchar(10),color varchar(10),age int, sex ENUM('F','M'), disabled BOOLEAN, personality SET('Extroverted','Introverted','Agreeable','Impulsive','LikesChildren', 'LikesCats'), adoptionFees int, ownerID int
+            
+            // Informing the user that his/ her offered cat added to the database : 
             JOptionPane.showMessageDialog(null, "Offered cat added successfully!", "", JOptionPane.NO_OPTION);
             dispose();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            System.out.println("SQL statment is not excuted");
+            System.out.println("SQL statment is not excuted"); // in case of any SQL exception 
         }     
     }//GEN-LAST:event_jButton2ActionPerformed
 
@@ -487,11 +491,11 @@ public class OfferACat extends javax.swing.JFrame {
         // TODO add your handling code here:
         JTextField jt =new JTextField();
         jt.setText("");
-        color = jTextField6.getText();
+        color = jTextField6.getText(); // Saving the color of the cat.
     }//GEN-LAST:event_jTextField6ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        // Linking the OfferACat page to the Homepage :
         HomePage hp= new HomePage();
         hp.show();
         dispose();
