@@ -17,6 +17,8 @@ public class Main {
         // TODO code application logic here
         Database db = new Database();
         db.db_ini();
+        HomePage hp= new HomePage();
+        hp.show();
     }
     
 }
