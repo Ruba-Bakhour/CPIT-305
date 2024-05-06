@@ -17,29 +17,9 @@ class ApplyFilterCats  {
     
     
     public static List<Cat> filtering(int Age,String color, String breed) {
+        //list to fetch all the cats from the database
         List<Cat> allCats = retrieveAllCatsFromDatabase();
-        
-        // Take user preferences as input
-//        int minAge, maxAge;
-//        String color, breed;
-//        Scanner scanner = new Scanner(System.in);
-//        System.out.println("Enter your preferences:");
-//        
-//        System.out.print("Minimum age: ");
-//        minAge = scanner.nextInt();
-//        
-//        System.out.print("Maximum age: ");
-//        maxAge = scanner.nextInt();
-//        
-//        scanner.nextLine(); // Consume newline
-//        
-//        System.out.print("Color: ");
-//        color = scanner.nextLine();
-//        
-//        System.out.print("Breed: ");
-//        breed = scanner.nextLine();
-        
-        
+        //list for the cats that matches the prefrences of the user
         List<Cat> filteredCats = filterCats(allCats, Age, color, breed);
         
         // Print or display the filtered cats to the user
@@ -51,34 +31,35 @@ class ApplyFilterCats  {
         
     }
 
+    // method that retrive all the cats in the database
     private static List<Cat> retrieveAllCatsFromDatabase() {
         
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet resultSet = null;
         
-        // retrieving cats from the database
+        //list for retrieving cats from the database
         List<Cat> cats = new ArrayList<>();   
         
         try{
-            // Connect to the database
+            //connect to the database
             connection = DriverManager.getConnection(ConnectionURL, "root", "raghad"); // Change it to your settings
             
-            // Prepare the SQL query
+            //prepare the SQL query
             String sql = "SELECT * FROM cat";
             statement = connection.prepareStatement(sql);
 
-            // Execute the query
+            //execute the query
             resultSet = statement.executeQuery();
 
-            // Process the results
+            //process the results
             while (resultSet.next()) {
                 String name = resultSet.getString("cat_name");
                 int age = resultSet.getInt("age");
                 String color = resultSet.getString("color");
                 String breed = resultSet.getString("breed");
                 
-                // Create a new Cat object and add it to the list
+                //create a new Cat object and add it to the list
                 cats.add(new Cat(age, color, breed,name));
             }
             
@@ -96,13 +77,16 @@ class ApplyFilterCats  {
         return cats;
     }
     
+    
+    //method to filter all the cats based on the user prefrences
+    //using multithreading every filter is a thread
     private static List<Cat> filterCats(List<Cat> cats, int Age, String color, String breed) {
         List<Cat> filteredCats = new ArrayList<>();
         List<Cat> ageFilteredCats = new ArrayList<>();
         List<Cat> colorFilteredCats = new ArrayList<>();
         List<Cat> breedFilteredCats = new ArrayList<>();
         
-        // Create threads for filtering cats by age
+        //create threads for filtering cats by age
         Thread ageFilterThread = new Thread(() -> {
             for (Cat cat : cats) {
                 if (cat.getAge() == Age) {
@@ -111,7 +95,7 @@ class ApplyFilterCats  {
             }
         });
         
-        // Create threads for filtering cats by color
+        //create threads for filtering cats by color
         Thread colorFilterThread = new Thread(() -> {
             for (Cat cat : cats) {
                 if (cat.getColor().equalsIgnoreCase(color)) {
@@ -120,7 +104,7 @@ class ApplyFilterCats  {
             }
         });
         
-        // Create threads for filtering cats by breed
+        //create threads for filtering cats by breed
         Thread breedFilterThread = new Thread(() -> {
             for (Cat cat : cats) {
                 if (cat.getBreed().equalsIgnoreCase(breed)) {
@@ -129,12 +113,12 @@ class ApplyFilterCats  {
             }
         });
         
-        // Start the threads
+        //start the threads
         ageFilterThread.start();
         colorFilterThread.start();
         breedFilterThread.start();
         
-        // Wait for all threads to finish
+        //wait for all threads to finish
         try {
             ageFilterThread.join();
             colorFilterThread.join();
@@ -143,7 +127,7 @@ class ApplyFilterCats  {
             e.printStackTrace();
         }
         
-        // Merge results from all threads into the final list of filtered cats
+        //merge results from all threads into the final list of filtered cats
         for (Cat cat : cats) {
             if (ageFilteredCats.contains(cat) || colorFilteredCats.contains(cat) || breedFilteredCats.contains(cat)) {
                 filteredCats.add(cat);

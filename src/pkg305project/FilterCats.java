@@ -198,22 +198,21 @@ public class FilterCats extends javax.swing.JFrame {
     }//GEN-LAST:event_breedActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        //take the values from the user
         String Color = color.getText();
         String Breed = breed.getText();
         int MinAge = Integer.parseInt(minAge.getText());
         String strNum = Integer.toString(MinAge);
         FilterCats fc=new FilterCats();
         
+        //cheack if color and breed are string and age is number and print a message for the user if it did not match
         if ((Color.matches("^[0-9]+$")) || (Breed.matches("^[0-9]+$")) || !(strNum.matches("^[0-9]+$"))){
-            // this regex will check if there is numbers
             
            JOptionPane.showMessageDialog(fc, "color and breed have to be String and age have to be number ");
             
     }else{
-            List<Cat> filteredCats =filtering(MinAge,Breed,Color);
-       
-
+        //call the filtering method to filter the cats with user prefrences
+        List<Cat> filteredCats =filtering(MinAge,Breed,Color);
         File file = new File("results.txt");
 
         FileWriter writer = null;
@@ -223,6 +222,7 @@ public class FilterCats extends javax.swing.JFrame {
             } catch (IOException ex) {
                 Logger.getLogger(FilterCats.class.getName()).log(Level.SEVERE, null, ex);
             }
+            //write all the cats in the list to the result file 
             for (Cat cat : filteredCats) {
                 try {
                     writer.write(cat.toString() + "\n");
@@ -238,6 +238,8 @@ public class FilterCats extends javax.swing.JFrame {
     
            
        try {
+           //read all the cats in the result file 
+           //and send it to the text area in the AfterFiltering frame to display it to the user
             BufferedReader reader = new BufferedReader(new FileReader(file));
             StringBuilder text = new StringBuilder();
             String line;
@@ -252,7 +254,7 @@ public class FilterCats extends javax.swing.JFrame {
         }
     
         
-        
+        //exception if there is no match to the user prefrences in the cat database
         if(file.length() == 0 ){
             try {
                 throw new noMatches("no matches found in our cats database :( ");
