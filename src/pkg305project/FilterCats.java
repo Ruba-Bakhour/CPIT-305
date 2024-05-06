@@ -207,7 +207,18 @@ public class FilterCats extends javax.swing.JFrame {
             List<Cat> filteredCats =filtering(MinAge,Breed,Color);
         
         AfterFiltering af = new AfterFiltering();
-        af.jLabel3.setText(filteredCats.toString());
+        af.jTextArea1.setText(filteredCats.toString());
+        
+        
+        if(filteredCats.isEmpty()){
+            try {
+                throw new noMatches("no matches found in our cats database :( ");
+            } catch (noMatches ex) {
+                JOptionPane.showMessageDialog(fc,"Exception: " + ex.getMessage());
+            }
+        }
+        
+        
         af.show();
         dispose();
         }
