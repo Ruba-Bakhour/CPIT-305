@@ -209,7 +209,7 @@ String regex = "^\\d{4}/(0[1-9]|1[0-2])/(0[1-9]|[12]\\d|3[01])$";
         Random r = new Random();
         int id = r.nextInt(1000);
         try {
-            Connection con = DriverManager.getConnection(ConnectionURL, "root", "1234"); // Change it to your settings
+            Connection con = DriverManager.getConnection(ConnectionURL, "root", "raghad"); // Change it to your settings
             Statement st = con.createStatement();
             
             st.executeUpdate("INSERT INTO donationFood VALUES(" + id + ", 0, '" + date + "','"+amount+"','"+brand+"')");

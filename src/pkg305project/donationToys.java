@@ -218,7 +218,7 @@ public class donationToys extends javax.swing.JFrame {
         Random r = new Random();
         int id = r.nextInt(1000);
         try {
-            Connection con = DriverManager.getConnection(ConnectionURL, "root", "1234"); // Change it to your settings
+            Connection con = DriverManager.getConnection(ConnectionURL, "root", "raghad"); // Change it to your settings
             Statement st = con.createStatement();
             
             st.executeUpdate("INSERT INTO donationToys VALUES(" + id + ", 0, '" + cond + "','"+size+"')");
